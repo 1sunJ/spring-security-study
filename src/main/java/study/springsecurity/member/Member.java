@@ -27,7 +27,7 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime createdDateTime;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<GrantedAuthority> authorities = new HashSet<>();
 
 }
