@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 import study.springsecurity.security.domain.enums.TokenType;
+import study.springsecurity.security.exception.NotValidatedTokenException;
 
 import javax.crypto.SecretKey;
 import java.util.Collection;
@@ -66,9 +67,8 @@ public class JwtManager {
             return true;
         } catch (Exception e) {
             log.error("★★★ fail to validate token ★★★", e);
+            throw new NotValidatedTokenException();
         }
-
-        return false;
     }
 
     public String extractToken(HttpServletRequest request) {
