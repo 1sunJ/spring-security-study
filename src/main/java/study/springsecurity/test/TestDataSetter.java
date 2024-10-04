@@ -20,6 +20,8 @@ public class TestDataSetter {
     public void initTestData() {
         Member member1 = new Member("1sunJ", "won9619v@naver.com", "1234");
         member1.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
+        member1.addAuthority(new SimpleGrantedAuthority("ROLE_SPECIAL"));
+        member1.addAuthority(new SimpleGrantedAuthority("ROLE_ADMIN"));
         Member member2 = new Member("2hunA", "abcdefg@naver.com", "1234");
         member2.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
         memberRepository.save(member1);
