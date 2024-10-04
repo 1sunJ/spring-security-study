@@ -1,5 +1,6 @@
 package study.springsecurity.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -9,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 import study.springsecurity.security.TokenType;
 
 import javax.crypto.SecretKey;
+import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -46,6 +49,10 @@ public class JwtManager {
     }
 
     public Boolean validateToken(String token) {
+        if (token == null) {
+            return false;
+        }
+
         try {
             Jwts.parser()
                     .verifyWith(getSecretKey())
@@ -62,6 +69,27 @@ public class JwtManager {
 
     public String extractToken(HttpServletRequest request) {
         return (String) request.getHeader("Authorization");
+    }
+
+    public Long getMemberId(String token) {
+        Claims payload = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return Long.parseLong(payload.getSubject());
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(String token) {
+        String authorities = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("authorities", String.class);
+
+        return AuthorityUtils.createAuthorityList(authorities.split(","));
     }
 
     private Date getExpirationDate(TokenType tokenType) {

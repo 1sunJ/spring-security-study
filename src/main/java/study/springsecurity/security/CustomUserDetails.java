@@ -3,6 +3,7 @@ package study.springsecurity.security;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import study.springsecurity.member.Member;
 
 import java.util.Collection;
 
@@ -12,9 +13,9 @@ public class CustomUserDetails implements UserDetails {
     private final String email;
     private final String password;
 
-    public CustomUserDetails(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public CustomUserDetails(Member member) {
+        this.email = member.getEmail();
+        this.password = member.getPassword();
     }
 
     @Override
