@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -36,6 +37,9 @@ public class Member {
         this.password = password;
     }
 
+    public void addAuthority(GrantedAuthority authority) {
+        this.authorities.add(authority);
+    }
 
 
 }
