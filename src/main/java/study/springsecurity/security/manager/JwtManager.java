@@ -65,7 +65,7 @@ public class JwtManager {
                     .getPayload();
             return true;
         } catch (Exception e) {
-            log.error("fail to validate token", e);
+            log.error("★★★ fail to validate token ★★★", e);
         }
 
         return false;
