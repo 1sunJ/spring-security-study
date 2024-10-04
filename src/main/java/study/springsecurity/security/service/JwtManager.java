@@ -1,4 +1,4 @@
-package study.springsecurity.security;
+package study.springsecurity.security.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
+import study.springsecurity.security.domain.enums.TokenType;
 
 import javax.crypto.SecretKey;
 import java.util.Collection;

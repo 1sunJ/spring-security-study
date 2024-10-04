@@ -1,7 +1,6 @@
 package study.springsecurity.security;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import study.springsecurity.member.Member;
+import study.springsecurity.security.domain.CustomUserDetails;
+import study.springsecurity.security.domain.enums.TokenType;
+import study.springsecurity.security.service.JwtManager;
 
 import static org.assertj.core.api.Assertions.*;
 

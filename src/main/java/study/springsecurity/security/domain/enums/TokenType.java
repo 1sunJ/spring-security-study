@@ -1,4 +1,4 @@
-package study.springsecurity.security;
+package study.springsecurity.security.domain.enums;
 
 public enum TokenType {
 

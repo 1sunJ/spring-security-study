@@ -1,4 +1,4 @@
-package study.springsecurity.security;
+package study.springsecurity.security.domain;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package study.springsecurity.security;
+package study.springsecurity.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import study.springsecurity.member.Member;
 import study.springsecurity.member.MemberRepository;
+import study.springsecurity.security.domain.CustomUserDetails;
+import study.springsecurity.security.service.JwtManager;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
