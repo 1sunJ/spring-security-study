@@ -1,4 +1,4 @@
-package study.springsecurity.manager;
+package study.springsecurity.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
