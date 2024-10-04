@@ -1,31 +1,76 @@
 package study.springsecurity.manager;
 
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import study.springsecurity.security.TokenType;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.stream.Collectors;
 
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtManager {
 
-    @Value("${spring.application.name}")
-    private String issuer;
-
-    @Value("{jwt.secret-key}")
-    private String secretKey;
+    @Value("${jwt.secret-key}")
+    private String SECRET_KEY;
 
     @Value("${jwt.access-expiration-time}")
-    private Long accessExpiration;
+    private Long ACCESS_EXPIRATION_TIME;
 
-    private SecretKey getSecretKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
+    @Value("${jwt.refresh-expiration-time}")
+    private Long REFRESH_EXPIRATION_TIME;
+
+    public String generateToken(Authentication authentication, TokenType tokenType) {
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        return Jwts.builder()
+                .signWith(getSecretKey())
+                .subject(authentication.getName())
+                .claim("tokenType", tokenType)
+                .claim("authorities", authorities)
+                .issuedAt(new Date())
+                .expiration(getExpirationDate(tokenType))
+                .compact();
     }
 
+    public Boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            return true;
+        } catch (Exception e) {
+            log.error("fail to validate token", e);
+        }
 
+        return false;
+    }
+
+    public String extractToken(HttpServletRequest request) {
+        return (String) request.getHeader("Authorization");
+    }
+
+    private Date getExpirationDate(TokenType tokenType) {
+       long expirationTime = tokenType.equals(TokenType.ACCESS_TOKEN) ? ACCESS_EXPIRATION_TIME : REFRESH_EXPIRATION_TIME;
+       return new Date(new Date().getTime() + expirationTime);
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(SECRET_KEY));
+    }
 
 }
