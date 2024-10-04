@@ -1,4 +1,4 @@
-package study.springsecurity.security.service;
+package study.springsecurity.security.manager;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

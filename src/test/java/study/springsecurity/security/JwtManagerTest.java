@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import study.springsecurity.member.Member;
 import study.springsecurity.security.domain.CustomUserDetails;
 import study.springsecurity.security.domain.enums.TokenType;
-import study.springsecurity.security.service.JwtManager;
+import study.springsecurity.security.manager.JwtManager;
 
 import static org.assertj.core.api.Assertions.*;
 

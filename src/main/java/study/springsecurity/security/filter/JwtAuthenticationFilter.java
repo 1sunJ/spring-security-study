@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import study.springsecurity.member.Member;
 import study.springsecurity.member.MemberRepository;
 import study.springsecurity.security.domain.CustomUserDetails;
-import study.springsecurity.security.service.JwtManager;
+import study.springsecurity.security.manager.JwtManager;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
