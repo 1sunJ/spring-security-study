@@ -54,10 +54,6 @@ public class JwtManager {
     }
 
     public Boolean validateToken(String token) {
-        if (token == null) {
-            return false;
-        }
-
         try {
             Jwts.parser()
                     .verifyWith(getSecretKey())

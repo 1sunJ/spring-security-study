@@ -36,15 +36,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = jwtManager.extractToken(request);
         log.info("token : {}", token);
 
-        jwtManager.validateToken(token);
+        if (token != null) {
+            jwtManager.validateToken(token);
 
-        String email = jwtManager.getEmail(token);
-        Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
-        log.info("email : {}", email);
+            String email = jwtManager.getEmail(token);
+            Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
+            log.info("email : {}", email);
 
-        UserDetails userDetails = new CustomUserDetails(member);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", jwtManager.getAuthorities(token));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetails userDetails = new CustomUserDetails(member);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", jwtManager.getAuthorities(token));
+            authentication.setAuthenticated(true);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            log.info("no token request");
+        }
 
         log.info("========== JwtFilter end ==========");
         filterChain.doFilter(request, response);
