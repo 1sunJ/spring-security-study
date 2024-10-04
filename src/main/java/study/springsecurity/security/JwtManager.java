@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
-import study.springsecurity.security.TokenType;
 
 import javax.crypto.SecretKey;
 import java.util.Collection;
@@ -38,9 +37,13 @@ public class JwtManager {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
+        return generateToken(authorities, authentication.getName(), tokenType);
+    }
+
+    public String generateToken(String authorities, String email, TokenType tokenType) {
         return Jwts.builder()
                 .signWith(getSecretKey())
-                .subject(authentication.getName())
+                .subject(email)
                 .claim("tokenType", tokenType)
                 .claim("authorities", authorities)
                 .issuedAt(new Date())
@@ -71,14 +74,14 @@ public class JwtManager {
         return (String) request.getHeader("Authorization");
     }
 
-    public Long getMemberId(String token) {
+    public String getEmail(String token) {
         Claims payload = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
 
-        return Long.parseLong(payload.getSubject());
+        return payload.getSubject();
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {

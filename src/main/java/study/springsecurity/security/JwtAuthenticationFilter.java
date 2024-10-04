@@ -31,8 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = jwtManager.extractToken(request);
 
         if (jwtManager.validateToken(token)) {
-            Long memberId = jwtManager.getMemberId(token);
-            Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+            String email = jwtManager.getEmail(token);
+            Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
 
             UserDetails userDetails = new CustomUserDetails(member);
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", jwtManager.getAuthorities(token));
