@@ -68,7 +68,7 @@ public class JwtManager {
     }
 
     public String extractToken(HttpServletRequest request) {
-        return (String) request.getHeader("Authorization");
+        return request.getHeader("Authorization");
     }
 
     public String getEmail(String token) {
