@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import study.springsecurity.member.Member;
+import study.springsecurity.security.exception.NotAuthenticatedException;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,5 +42,16 @@ public class CustomUserDetails implements UserDetails {
         return null;
     }
 
+    public static String getEmail(CustomUserDetails userDetails, boolean required) {
+        if (userDetails != null) {
+            return userDetails.getEmail();
+        } else {
+            if (required) {
+                throw new NotAuthenticatedException();
+            } else {
+                return null;
+            }
+        }
+    }
 
 }
