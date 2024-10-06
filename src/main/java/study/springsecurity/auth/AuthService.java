@@ -1,6 +1,7 @@
 package study.springsecurity.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.springsecurity.auth.domain.dto.LoginReq;
@@ -52,6 +53,7 @@ public class AuthService {
         }
 
         Member member = signUpReq.toEntity();
+        member.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
         memberRepository.save(member);
     }
 
