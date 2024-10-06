@@ -3,17 +3,14 @@ package study.springsecurity.security.domain;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class JwtAuthentication implements Authentication {
 
     private String jwtToken;
     @Setter
-    private CustomUserDetails customUserDetails;
+    private CustomUserDetails userDetails;
 
     private boolean isAuthenticated;
 
@@ -25,9 +22,9 @@ public class JwtAuthentication implements Authentication {
         this.isAuthenticated = false;
     }
 
-    public JwtAuthentication(String jwtToken, CustomUserDetails customUserDetails) {
+    public JwtAuthentication(String jwtToken, CustomUserDetails userDetails) {
         this.jwtToken = jwtToken;
-        this.customUserDetails = customUserDetails;
+        this.userDetails = userDetails;
         this.isAuthenticated = true;
     }
 
@@ -38,7 +35,7 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public CustomUserDetails getDetails() {
-        return customUserDetails;
+        return userDetails;
     }
 
     @Override
@@ -56,16 +53,14 @@ public class JwtAuthentication implements Authentication {
         this.isAuthenticated = true;
     }
 
+    @Override
+    public Object getPrincipal() {
+        return userDetails;
+    }
+
     /**
      * not used
      */
-
-    @Override
-    public Object getPrincipal() {
-        return null;
-    }
-
-
     @Override
     public String getName() {
         return null;
