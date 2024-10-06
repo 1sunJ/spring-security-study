@@ -28,7 +28,7 @@ public class TestController {
 
     @GetMapping
     public String test(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        return userDetails.getEmail();
+        return CustomUserDetails.getEmail(userDetails, false);
     }
 
     @GetMapping("/token")
