@@ -53,14 +53,13 @@ public class JwtManager {
                 .compact();
     }
 
-    public Boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
             Jwts.parser()
                     .verifyWith(getSecretKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-            return true;
         } catch (Exception e) {
             log.error("★★★ fail to validate token ★★★", e);
             throw new NotValidatedTokenException();

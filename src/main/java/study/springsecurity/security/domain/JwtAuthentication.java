@@ -15,10 +15,17 @@ public class JwtAuthentication implements Authentication {
     @Setter
     private CustomUserDetails customUserDetails;
 
-    private boolean isAuthenticated = false;
+    private boolean isAuthenticated;
 
     public JwtAuthentication(String jwtToken) {
         this.jwtToken = jwtToken;
+        this.isAuthenticated = false;
+    }
+
+    public JwtAuthentication(String jwtToken, CustomUserDetails customUserDetails) {
+        this.jwtToken = jwtToken;
+        this.customUserDetails = customUserDetails;
+        this.isAuthenticated = true;
     }
 
     @Override
@@ -34,10 +41,6 @@ public class JwtAuthentication implements Authentication {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getDetails().getAuthorities();
-    }
-
-    public void setAuthorities(Set<GrantedAuthority> authorities) {
-        getDetails().setAuthorities(authorities);
     }
 
     @Override

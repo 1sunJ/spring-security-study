@@ -37,10 +37,7 @@ class JwtManagerTest {
         String token = jwtManager.generateToken(authentication, TokenType.ACCESS_TOKEN);
         log.info("token 발급 : {}", token);
 
-        Boolean result = jwtManager.validateToken(token);
-        log.info("result : {}", result);
-
-        assertThat(result).isTrue();
+        jwtManager.validateToken(token);
     }
 
     @Test
@@ -58,10 +55,7 @@ class JwtManagerTest {
         token = "DAMAGED " + token;
         log.info("훼손된 token : {}", token);
 
-        Boolean result = jwtManager.validateToken(token);
-        log.info("result : {}", result);
-
-        assertThat(result).isFalse();
+        jwtManager.validateToken(token);
     }
 
     @Test
