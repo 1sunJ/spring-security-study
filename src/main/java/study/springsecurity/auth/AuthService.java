@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.springsecurity.auth.domain.dto.LoginReq;
 import study.springsecurity.auth.domain.dto.LoginRes;
+import study.springsecurity.auth.domain.dto.SignUpReq;
+import study.springsecurity.auth.exception.ExisingEmailException;
+import study.springsecurity.auth.exception.ExisingNameException;
 import study.springsecurity.auth.exception.NotMatchedLoginInfo;
 import study.springsecurity.member.Member;
 import study.springsecurity.member.MemberRepository;
@@ -37,6 +40,19 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public void signUp(SignUpReq signUpReq) {
+        if (memberRepository.existsByEmail(signUpReq.getEmail())) {
+            throw new ExisingEmailException();
+        }
+
+        if (memberRepository.existsByName(signUpReq.getName())) {
+            throw new ExisingNameException();
+        }
+
+        Member member = signUpReq.toEntity();
+        memberRepository.save(member);
     }
 
 }
