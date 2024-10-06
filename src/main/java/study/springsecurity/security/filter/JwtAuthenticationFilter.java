@@ -7,9 +7,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import study.springsecurity.member.MemberRepository;
+import study.springsecurity.security.domain.CustomUserDetails;
 import study.springsecurity.security.domain.JwtAuthentication;
 import study.springsecurity.security.manager.JwtManager;
 
@@ -31,10 +34,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = jwtManager.extractToken(request);
         log.info("token : {}", token);
 
-        JwtAuthentication jwtAuthentication = new JwtAuthentication(token);
-        authenticationManager.authenticate(jwtAuthentication);
+        if (token == null) {
+            JwtAuthentication jwtAuthentication = new JwtAuthentication();
+        } else {
+            JwtAuthentication jwtAuthentication = new JwtAuthentication(token);
+            Authentication authenticate = authenticationManager.authenticate(jwtAuthentication);
+            SecurityContextHolder.getContext().setAuthentication(authenticate);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            log.info("authentication : {}", authentication);
+            log.info("userDetails : {}", authentication.getDetails());
+            log.info("email : {}", ((CustomUserDetails) authentication.getDetails()).getEmail());
+            log.info("authorities : {}", authentication.getAuthorities());
+        }
 
-        log.info("========== JwtFilter end ==========");
+        log.info("========== JwtFilter end : {} ==========", token);
         filterChain.doFilter(request, response);
     }
 

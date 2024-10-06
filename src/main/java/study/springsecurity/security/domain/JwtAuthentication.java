@@ -17,6 +17,9 @@ public class JwtAuthentication implements Authentication {
 
     private boolean isAuthenticated;
 
+    public JwtAuthentication() {
+    }
+
     public JwtAuthentication(String jwtToken) {
         this.jwtToken = jwtToken;
         this.isAuthenticated = false;

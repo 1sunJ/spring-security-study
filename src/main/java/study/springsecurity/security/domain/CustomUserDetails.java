@@ -20,6 +20,7 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(Member member) {
         this.email = member.getEmail();
+        this.authorities = member.getAuthorities();
     }
 
     @Override
