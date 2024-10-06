@@ -25,6 +25,11 @@ public class TestController {
 
     private final JwtManager jwtManager;
 
+    @GetMapping
+    public String test() {
+        return "successful";
+    }
+
     @GetMapping("/token")
     public String getTokenForTest(@RequestParam(name = "userId") Long userId) {
         Member member = memberRepository.findById(userId).orElseThrow(NoSuchElementException::new);
