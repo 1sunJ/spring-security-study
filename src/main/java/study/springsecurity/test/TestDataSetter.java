@@ -19,13 +19,18 @@ public class TestDataSetter {
     @EventListener(ApplicationReadyEvent.class)
     public void initTestData() {
         Member member1 = new Member("1sunJ", "won9619v@naver.com", "1234");
-        member1.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
-        member1.addAuthority(new SimpleGrantedAuthority("ROLE_SPECIAL"));
+        member1.addAuthority(new SimpleGrantedAuthority("ROLE_USER"));
+        member1.addAuthority(new SimpleGrantedAuthority("ROLE_MANAGER"));
         member1.addAuthority(new SimpleGrantedAuthority("ROLE_ADMIN"));
         Member member2 = new Member("2hunA", "abcdefg@naver.com", "1234");
-        member2.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
+        member2.addAuthority(new SimpleGrantedAuthority("ROLE_USER"));
+        member2.addAuthority(new SimpleGrantedAuthority("ROLE_MANAGER"));
+        Member member3 = new Member("3hani", "abc@naver.com", "1234");
+        member3.addAuthority(new SimpleGrantedAuthority("ROLE_USER"));
+
         memberRepository.save(member1);
         memberRepository.save(member2);
+        memberRepository.save(member3);
     }
 
 }
