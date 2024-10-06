@@ -12,12 +12,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
+import study.springsecurity.security.domain.CustomUserDetails;
 import study.springsecurity.security.domain.enums.TokenType;
 import study.springsecurity.security.exception.NotValidatedTokenException;
 
 import javax.crypto.SecretKey;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,14 +37,11 @@ public class JwtManager {
     private Long REFRESH_EXPIRATION_TIME;
 
     public String generateToken(Authentication authentication, TokenType tokenType) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
-        return generateToken(authorities, authentication.getName(), tokenType);
+        CustomUserDetails details = (CustomUserDetails) authentication.getDetails();
+        return generateToken(details.getAuthorities(), authentication.getName(), tokenType);
     }
 
-    public String generateToken(String authorities, String email, TokenType tokenType) {
+    public String generateToken(Set<GrantedAuthority> authorities, String email, TokenType tokenType) {
         return Jwts.builder()
                 .signWith(getSecretKey())
                 .subject(email)
