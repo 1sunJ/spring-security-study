@@ -33,7 +33,7 @@ public class TestController {
     @GetMapping("/token")
     public String getTokenForTest(@RequestParam(name = "userId") Long userId) {
         Member member = memberRepository.findById(userId).orElseThrow(NoSuchElementException::new);
-        CustomUserDetails customUserDetails = new CustomUserDetails(member);
+        CustomUserDetails customUserDetails = new CustomUserDetails(member.getEmail(), member.getAuthorities());
         Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, "", member.getAuthorities());
         return jwtManager.generateToken(authentication, TokenType.ACCESS_TOKEN);
     }

@@ -18,9 +18,9 @@ public class CustomUserDetails implements UserDetails {
     @Setter
     private Set<GrantedAuthority> authorities = new HashSet<>();
 
-    public CustomUserDetails(Member member) {
-        this.email = member.getEmail();
-        this.authorities = member.getAuthorities();
+    public CustomUserDetails(String email, Set<GrantedAuthority> authorities) {
+        this.email = email;
+        this.authorities = authorities;
     }
 
     @Override

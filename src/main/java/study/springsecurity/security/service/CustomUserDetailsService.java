@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
-        return new CustomUserDetails(member);
+        return new CustomUserDetails(member.getEmail(), member.getAuthorities());
     }
 
 }

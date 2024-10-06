@@ -31,7 +31,7 @@ class JwtManagerTest {
         Member member = new Member("1sunJ", "won9619v@naver.com", "1234");
         member.getAuthorities().add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        UserDetails userDetails = new CustomUserDetails(member);
+        UserDetails userDetails = new CustomUserDetails(member.getEmail(), member.getAuthorities());
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", member.getAuthorities());
 
         String token = jwtManager.generateToken(authentication, TokenType.ACCESS_TOKEN);
@@ -45,7 +45,7 @@ class JwtManagerTest {
         Member member = new Member("1sunJ", "won9619v@naver.com", "1234");
         member.getAuthorities().add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        UserDetails userDetails = new CustomUserDetails(member);
+        UserDetails userDetails = new CustomUserDetails(member.getEmail(), member.getAuthorities());
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", member.getAuthorities());
 
         String token = jwtManager.generateToken(authentication, TokenType.ACCESS_TOKEN);
@@ -63,7 +63,7 @@ class JwtManagerTest {
         Member member = new Member("1sunJ", "won9619v@naver.com", "1234");
         member.getAuthorities().add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        UserDetails userDetails = new CustomUserDetails(member);
+        UserDetails userDetails = new CustomUserDetails(member.getEmail(), member.getAuthorities());
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, "", member.getAuthorities());
 
         String token = jwtManager.generateToken(authentication, TokenType.ACCESS_TOKEN);
