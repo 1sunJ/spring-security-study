@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LoginRes {
+public class JwtTokenDto {
 
     private String accessToken;
     private String refreshToken;
