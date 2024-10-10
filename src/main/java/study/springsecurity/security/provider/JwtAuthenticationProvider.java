@@ -29,8 +29,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         jwtManager.validateToken(jwtToken);
 
-        String email = jwtManager.getEmail(jwtToken);
-        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+        Long memberId = jwtManager.getMemberId(jwtToken);
+        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(memberId.toString());
 
         return new JwtAuthentication(jwtToken, userDetails);
     }

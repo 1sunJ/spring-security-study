@@ -20,7 +20,6 @@ import javax.crypto.SecretKey;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -41,10 +40,10 @@ public class JwtManager {
         return generateToken(details.getAuthorities(), Long.valueOf(authentication.getName()), tokenType);
     }
 
-    public String generateToken(Set<GrantedAuthority> authorities, Long userId, TokenType tokenType) {
+    public String generateToken(Set<GrantedAuthority> authorities, Long memberId, TokenType tokenType) {
         return Jwts.builder()
                 .signWith(getSecretKey())
-                .subject(userId.toString())
+                .subject(memberId.toString())
                 .claim("tokenType", tokenType)
                 .claim("authorities", authorities)
                 .issuedAt(new Date())
@@ -69,14 +68,14 @@ public class JwtManager {
         return request.getHeader("Authorization");
     }
 
-    public String getEmail(String token) {
+    public Long getMemberId(String token) {
         Claims payload = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
 
-        return payload.getSubject();
+        return Long.parseLong(payload.getSubject());
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {

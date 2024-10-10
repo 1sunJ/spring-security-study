@@ -38,7 +38,6 @@ public class AuthService {
         String accessToken = jwtManager.generateToken(member.getAuthorities(), member.getId(), TokenType.ACCESS_TOKEN);
         String refreshToken = jwtManager.generateToken(member.getAuthorities(), member.getId(), TokenType.REFRESH_TOKEN);
 
-
         return JwtTokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -54,9 +53,9 @@ public class AuthService {
             throw new ExisingNameException();
         }
 
-        Member member = signUpReq.toEntity();
-        member.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
-        memberRepository.save(member);
+        Member newMember = signUpReq.toEntity();
+        newMember.addAuthority(new SimpleGrantedAuthority("ROLE_NORMAL"));
+        memberRepository.save(newMember);
     }
 
     public void logout(JwtTokenDto jwtTokenDto) {

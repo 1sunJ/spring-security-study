@@ -69,10 +69,10 @@ class JwtManagerTest {
         String token = jwtManager.generateToken(authentication, TokenType.ACCESS_TOKEN);
         log.info("token 발급 : {}", token);
 
-        String email = jwtManager.getEmail(token);
-        log.info("email : {}", email);
+        Long memberId = jwtManager.getMemberId(token);
+        log.info("email : {}", memberId);
 
-        assertThat(email).isEqualTo(member.getEmail());
+        assertThat(memberId).isEqualTo(member.getId());
     }
 
 

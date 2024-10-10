@@ -24,16 +24,16 @@ public class AuthController {
     }
 
     @GetMapping("/login/kakao")
-    public LoginRes login(@RequestParam(name = "code") String code) throws Exception {
-        log.info("kakao auth controller start : {}", code);
+    public JwtTokenDto login(@RequestParam(name = "code") String code) {
+//        log.info("kakao auth controller start : {}", code);
 
         String token = kakaoAuthManager.getKakaoToken(code);
-        log.info("kakao token : {}", token);
+//        log.info("kakao token : {}", token);
 
         Long kakaoId = kakaoAuthManager.getKakaoId(token);
-        log.info("kakaoId : {}", kakaoId);
+//        log.info("kakaoId : {}", kakaoId);
 
-        log.info("kakao auth controller end");
+//        log.info("kakao auth controller end");
         return kakaoAuthService.login(kakaoId);
     }
 
