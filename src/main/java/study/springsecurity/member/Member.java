@@ -20,6 +20,8 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    private Long kakaoId;
+
     private String name;
 
     private String email;
@@ -35,6 +37,14 @@ public class Member {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public Member(Long kakaoId) {
+        this.kakaoId = kakaoId;
+    }
+
+    public static Member createByKakao(Long kakaoId) {
+        return new Member(kakaoId);
     }
 
     public void addAuthority(GrantedAuthority authority) {
