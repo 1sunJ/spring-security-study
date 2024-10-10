@@ -33,8 +33,8 @@ public class AuthService {
             throw new NotMatchedLoginInfo();
         }
 
-        String accessToken = jwtManager.generateToken(member.getAuthorities(), member.getEmail(), TokenType.ACCESS_TOKEN);
-        String refreshToken = jwtManager.generateToken(member.getAuthorities(), member.getEmail(), TokenType.REFRESH_TOKEN);
+        String accessToken = jwtManager.generateToken(member.getAuthorities(), member.getId(), TokenType.ACCESS_TOKEN);
+        String refreshToken = jwtManager.generateToken(member.getAuthorities(), member.getId(), TokenType.REFRESH_TOKEN);
 
 
         return LoginRes.builder()

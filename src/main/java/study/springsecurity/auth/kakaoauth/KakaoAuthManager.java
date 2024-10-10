@@ -32,6 +32,9 @@ public class KakaoAuthManager {
     @Value("${kakao.auth-uri}")
     private String KAKAO_AUTH_URI;
 
+    @Value("${kakao.kapi-uri}")
+    private String KAKAO_KAPI_URI;
+
     public String getKakaoToken(String code) {
         if (code == null) {
             throw new RuntimeException("No Kakao auth code");
@@ -56,7 +59,7 @@ public class KakaoAuthManager {
         );
 
         String responseBody = response.getBody();
-        log.info("responseBody : {}", responseBody);
+//        log.info("responseBody : {}", responseBody);
 
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject;
@@ -65,8 +68,44 @@ public class KakaoAuthManager {
         } catch (Exception e) {
             throw new RuntimeException("파싱하다가 에러남 ㅠ");
         }
+//        log.info("jsonObject : {}", jsonObject);
 
-        return (String) jsonObject.get("accessToken");
+        return String.valueOf(jsonObject.get("access_token"));
+    }
+
+    public Long getKakaoId(String token) {
+        if (token == null) {
+            throw new RuntimeException("No Kakao auth token");
+        }
+
+        HttpHeaders requestHeader = new HttpHeaders();
+        requestHeader.add("Authorization", "Bearer " + token);
+        requestHeader.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(requestHeader);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                KAKAO_KAPI_URI,
+                HttpMethod.GET,
+                httpEntity,
+                String.class
+        );
+
+        String responseBody = response.getBody();
+//        log.info("responseBody : {}", responseBody);
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject;
+        try {
+            jsonObject = (JSONObject) jsonParser.parse(responseBody);
+        } catch (Exception e) {
+            throw new RuntimeException("파싱하다가 에러남 ㅠ");
+        }
+//        log.info("jsonObject : {}", jsonObject);
+
+        String kakaoId = String.valueOf(jsonObject.get("id"));
+        return Long.valueOf(kakaoId);
     }
 
 }

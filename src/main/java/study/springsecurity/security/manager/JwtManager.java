@@ -38,13 +38,13 @@ public class JwtManager {
 
     public String generateToken(Authentication authentication, TokenType tokenType) {
         CustomUserDetails details = (CustomUserDetails) authentication.getDetails();
-        return generateToken(details.getAuthorities(), authentication.getName(), tokenType);
+        return generateToken(details.getAuthorities(), Long.valueOf(authentication.getName()), tokenType);
     }
 
-    public String generateToken(Set<GrantedAuthority> authorities, String email, TokenType tokenType) {
+    public String generateToken(Set<GrantedAuthority> authorities, Long userId, TokenType tokenType) {
         return Jwts.builder()
                 .signWith(getSecretKey())
-                .subject(email)
+                .subject(userId.toString())
                 .claim("tokenType", tokenType)
                 .claim("authorities", authorities)
                 .issuedAt(new Date())

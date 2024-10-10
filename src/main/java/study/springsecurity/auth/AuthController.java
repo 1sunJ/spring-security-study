@@ -29,15 +29,12 @@ public class AuthController {
 
         String token = kakaoAuthManager.getKakaoToken(code);
         log.info("kakao token : {}", token);
-//
-//        String kakaoId = kakaoAuthService.getKakaoInfo();
-//        log.info("kakaoId : {}", kakaoId);
+
+        Long kakaoId = kakaoAuthManager.getKakaoId(token);
+        log.info("kakaoId : {}", kakaoId);
 
         log.info("kakao auth controller end");
-
-        // signUp 여부 확인하여 처리 후 토큰 반환
-//        return kakaoAuthService.login(kakaoId);
-        return null;
+        return kakaoAuthService.login(kakaoId);
     }
 
     @PostMapping("/sign-up")
