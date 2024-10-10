@@ -1,4 +1,4 @@
-package study.springsecurity.test;
+package study.springsecurity.auth.kakaoauth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginPageController {
 
-    @Value("${kakao.location}")
-    private String location;
+    @Value("${kakao.login-uri}")
+    private String LOCATION;
 
     @Value("${kakao.client.id}")
-    private String clientId;
+    private String CLIENT_ID;
 
     @Value("${kakao.redirect-uri}")
-    private String redirectUri;
+    private String REDIRECT_URI;
 
     @GetMapping("/login/page/kakao")
     public String authPage(Model model) {
@@ -24,9 +24,9 @@ public class LoginPageController {
     }
 
     private String getWholeUri() {
-        return location + "?"
-                + "client_id=" + clientId + "&"
-                + "redirect_uri=" + redirectUri + "&"
+        return LOCATION + "?"
+                + "client_id=" + CLIENT_ID + "&"
+                + "redirect_uri=" + REDIRECT_URI + "&"
                 + "response_type=code";
     }
 
